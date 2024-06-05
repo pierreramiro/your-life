@@ -69,11 +69,14 @@ body {
   font-size: 0.9em;
   margin-bottom: 0.3rem;
 }
+.month {
+  padding: 1.25px;
+}
 .day {
   width: 2em;
 }
 .year {
-  width: 4em;
+  width: 3em;
 }
 input:required:invalid.touched {
   border: 2px solid red;
@@ -253,4 +256,46 @@ input:required:invalid.touched {
   clip: rect(0 0 0 0);
   height: 1px; width: 1px;
   margin: -1px; padding: 0; border: 0;
+}
+
+/**
+ * Print Styles
+ */
+@page {
+  size: Letter portrait;
+}
+
+
+@media print {
+  .credits p,
+  .chart li {
+    /* Force backgrounds to show (like the red shapes). This overrides the print
+      dialog option "Print backgrounds," which often defaults to disabled). We
+      target the affected elements directly because inheritance wasn't sufficient
+      in Firefox. */
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  .unitbox {
+    border-bottom: none;
+    padding: 0;
+    background-image: none;
+  }
+
+  .month {
+    appearance: none;
+    width: 96px;
+    font-size: 18px;
+  }
+  .day {
+    font-size: 18px;
+  }
+  .year {
+    font-size: 18px;
+  }
+
+  .print-hide {
+    display: none;
+  }
 }
