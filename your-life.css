@@ -180,6 +180,15 @@ input:required:invalid.touched {
   padding-left: 10px;
   vertical-align: bottom;
 }
+
+.selected {
+  border: 2px solid blue; /* Border color for selected items */
+}
+
+.disabled {
+  cursor: not-allowed;
+}
+
 @media (max-width: 350px) {
   .weeks--x-arrow {
     display: none;

@@ -9,12 +9,16 @@
     unitText = document.querySelector('.unitbox-label').textContent.toLowerCase(),
     items = document.querySelectorAll('.chart li'),
     itemCount,
-    COLOR = 'red',
+    COLOR = document.getElementById('colorPicker'),
     KEY = {
       UP: 38,
       DOWN: 40
     };
-
+  // Selecction
+  const enableSelectionButton = document.getElementById('enableSelection');
+  const colorSelectedButton = document.getElementById('colorSelected');
+  const listItems = document.querySelectorAll('.chart li');
+  let selectionEnabled = false;
   // Set listeners
   unitboxEl.addEventListener('change', _handleUnitChange);
   yearEl.addEventListener('input', _handleDateChange);
@@ -134,7 +138,7 @@
   function _repaintItems(number) {
     for (var i = 0; i < items.length; i++) {
       if (i < number) {
-        items[i].style.backgroundColor = COLOR;
+        items[i].style.backgroundColor = COLOR.value;
       } else {
         items[i].style.backgroundColor = '';
       }
@@ -161,4 +165,54 @@
     }
     _handleDateChange();
   }
+
+  // Selection
+  enableSelectionButton.addEventListener('click', () => {
+    selectionEnabled = !selectionEnabled;
+    if (selectionEnabled) {
+        enableSelectionButton.value = 'Deshabilitar Selección';
+        colorSelectedButton.disabled = false;
+        day.disabled = true;
+        month.disabled = true;
+        year.disabled = true;
+        listItems.forEach(item => {
+            item.classList.remove('disabled');
+        });
+    } else {
+        enableSelectionButton.value = 'Habilitar Selección';
+        colorSelectedButton.disabled = true;
+        day.disabled = false;
+        month.disabled = false;
+        year.disabled = false;
+        listItems.forEach(item => {
+            item.classList.add('disabled');
+        });
+    }
+  });
+
+  listItems.forEach(item => {
+      item.addEventListener('click', () => {
+          if (selectionEnabled) {
+            item.classList.toggle('selected');
+            // Cambiar el color del borde
+            if (item.classList.contains('selected')) {
+              item.style.border = '1px solid blue'; 
+              item.style.borderRadius = '50%';
+            } else {
+              item.style.border = '1px solid black';
+              item.style.borderRadius = '0%';
+            }
+          }
+      });
+  });
+
+  colorSelectedButton.addEventListener('click', () => {
+      const selectedItems = document.querySelectorAll('.chart li.selected');
+      selectedItems.forEach(item => {
+          item.style.backgroundColor = COLOR.value;
+          item.style.border = '1px solid black';
+          item.style.borderRadius = '0%';
+          item.classList.remove('selected');
+      });
+  });
 })();
